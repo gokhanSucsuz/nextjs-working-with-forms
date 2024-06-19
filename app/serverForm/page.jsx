@@ -1,49 +1,42 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
+import { serverAction } from "./action"
 
 const ServerForm = () => {
-    const serverAction = async (formData) => {
-        "use server"
-        formData.set("name", "111111")
-        formData.set("email", "0000")
-        const email = formData.get("email")
-        const password = formData.get("password")
-        const repeatPassword = formData.get("repeatPassword")
-        const terms = formData.get("terms")
-        formData.append("name", "*******")
-        formData.set("newKey", "12345")
-        const newKey = formData.get("newKey")
-
-        const name = formData.getAll("name")
-        console.log(email, password, repeatPassword, terms, newKey, name)
-        console.log("formData keys")
-        for (const key of formData.keys()) {
-            console.log(key)
+    const [errorObj, setErrorObj] = useState({
+        email: false,
+        password: false,
+        repeatPassword: false,
+        match: false
+    })
+    const handleAction = async (formData) => {
+        const res = await serverAction(formData)
+        if (res) {
+            setErrorObj(res)
+        } else {
+            setErrorObj({})
         }
-
-        console.log("formData values")
-        for (const value of formData.values()) {
-            console.log(value)
-        }
-        console.log("formData entries")
-        for (const entry of formData.entries()) {
-            console.log(entry)
-            console.log(entry[0], entry[1])
-        }
+        console.log(res)
     }
+
     return (
         <div className='p-10'>
-            <form className="max-w-sm mx-auto p-10 border shadow-lg rounded-lg" action={serverAction}>
+            <form className="max-w-sm mx-auto p-10 border shadow-lg rounded-lg" action={handleAction}>
                 <div className="mb-5">
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                    <input name='email' type="email" id="email" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="name@flowbite.com" required />
+                    <input name='email' type="email" id="email" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="name@flowbite.com" />
+                    <p className={errorObj.email ? `flex bg-red-500 text-center text-white p-2 m-3 border rounded-lg shadow-lg text-sm` : `hidden`}>Please enter data in correct format</p>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                    <input name='password' type="password" id="password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+                    <input name='password' type="password" id="password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" />
+                    <p className={errorObj.password ? `flex bg-red-500 text-center text-white p-2 m-3 border rounded-lg shadow-lg text-sm` : `hidden`}>Please enter data in correct format</p>
                 </div>
                 <div className="mb-5">
                     <label htmlFor="repeat-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repeat password</label>
-                    <input name='repeatPassword' type="password" id="repeat-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+                    <input name='repeatPassword' type="password" id="repeat-password" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" />
+                    <p className={errorObj.repeatPassword ? `flex bg-red-500 text-center text-white p-2 m-3 border rounded-lg shadow-lg text-sm` : `hidden`}>Please enter data in correct format</p>
+                    <p className={errorObj.match ? `flex bg-red-500 text-center text-white p-2 m-3 border rounded-lg shadow-lg text-sm` : `hidden`}>Your password doesnt match!</p>
                 </div>
                 <div className="flex items-start mb-5">
                     <div className="flex items-center h-5">
