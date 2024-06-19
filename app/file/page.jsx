@@ -22,7 +22,7 @@ const File = () => {
                     Upload File
                 </button>
                 {
-                    fileName ? <div className='p-3 bg-purple-300 text-white font-bold my-3 rounded-lg'>File "{fileName}" is loaded...</div> : ""
+                    fileName ? <div className='p-3 bg-purple-300 text-white font-bold my-3 rounded-lg'>File ({fileName}) is loaded...</div> : ""
                 }
             </form>
         </div>

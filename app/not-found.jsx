@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-const notFound = () => {
+const NotFound = () => {
     const navigate = useRouter()
     return (
         <div>{/* component */}
@@ -24,4 +24,4 @@ const notFound = () => {
     )
 }
 
-export default notFound
+export default NotFound
