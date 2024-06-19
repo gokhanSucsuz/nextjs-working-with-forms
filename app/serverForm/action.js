@@ -1,4 +1,15 @@
 "use server";
+import { z } from "zod";
+
+const formSchema = z
+	.object({
+		email: z.string().email("Please enter a valid email!"),
+		password: z.string().min(8, "Password must be at least 8 character!"),
+		repeatPassword: z.string().min(8, "Password must be at least 8 character!")
+	})
+	.refine((data) => data.password === data.repeatPassword, {
+		message: "Passwords don't match!"
+	});
 export const serverAction = async (formData) => {
 	console.log(formData);
 	formData.set("name", "111111");
@@ -38,5 +49,12 @@ export const serverAction = async (formData) => {
 
 	if (Object.values(errorObj).includes(true)) {
 		return errorObj;
+	}
+
+	try {
+		formSchema.parse({ email, password, repeatPassword });
+	} catch (error) {
+		console.log(error.errors);
+		return error.issues;
 	}
 };
