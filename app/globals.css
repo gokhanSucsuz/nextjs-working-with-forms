@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .h-screen-minus-50px {
+        height: calc(100vh - 60px);
+    }
+}

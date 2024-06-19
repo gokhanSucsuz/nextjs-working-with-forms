@@ -22,8 +22,6 @@ const ServerForm = () => {
             setIsError(res)
         }
     }
-
-
     return (
         <div className='p-10'>
             <form className="max-w-sm mx-auto p-10 border shadow-lg rounded-lg" action={handleAction}>
